@@ -1,20 +1,26 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Formulario</ion-title>
+    <ion-button size="small"  (click)="logout()"> salir </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content padding>
+  <ion-item >
+    <ion-label position="stacked">Ingresa un nombre</ion-label>
+    <ion-input type="text" [(ngModel)]="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Seleccionar opción</ion-label>
+    <ion-select [(ngModel)]="opcion">
+      <ion-select-option value="opcion1">Opción 1</ion-select-option>
+      <ion-select-option value="opcion2">Opción 2</ion-select-option>
+      <ion-select-option value="opcion3">Opción 3</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item *ngIf="opcion === 'opcion3'">
+    <ion-label position="stacked">Ingresa un número</ion-label>
+    <ion-input type="number" [(ngModel)]="valor"></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="enviar()">Enviar</ion-button>
 </ion-content>

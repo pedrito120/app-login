@@ -1,4 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController, LoadingController } from '@ionic/angular';
+import { HomeService } from '../services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +10,52 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  opcion: string;
+  valor: number;
+  nombre : string;
 
-  constructor() {}
+  constructor(
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private service: HomeService,
+    private router: Router
+  ) { }
 
+  async enviar() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Enviando datos...'
+    });
+    await loading.present();
+    const data = {
+      nombre: this.nombre ,
+      opcion: this.opcion,
+      valor: this.valor,
+    }
+    
+   this.service.setData(data).subscribe((response: any) => {
+        loading.dismiss();
+        if (response.success) {
+          this.showAlert('Exito', response.message);
+        } else {
+          this.showAlert('Error', response.message);
+        }
+      }, (error) => {
+        loading.dismiss();
+        this.showAlert('Error', 'Ocurrio un error al enviar los datos. Por favor, intenta de nuevo.');
+      });
+  }
+
+  async showAlert(title: string, message: string) {
+    const alert = await this.alertCtrl.create({
+      header: title,
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  logout(){
+    localStorage.clear();
+    this.router.navigateByUrl('/login');
+  }
 }
