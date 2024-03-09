@@ -26,13 +26,9 @@ export class HomePage {
       message: 'Enviando datos...'
     });
     await loading.present();
-    const data = {
-      nombre: this.nombre ,
-      opcion: this.opcion,
-      valor: this.valor,
-    }
+
     
-   this.service.setData(data).subscribe((response: any) => {
+   this.service.setData2(this.nombre,this.opcion,this.valor).subscribe((response: any) => {
         loading.dismiss();
         if (response.success) {
           this.showAlert('Exito', response.message);
